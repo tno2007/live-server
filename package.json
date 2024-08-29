@@ -3,8 +3,7 @@
 		"start": "node server.js",
 		"dev": "run-p watch:server watch:css",
 		"watch:css": "pnpm exec tailwindcss -i ./tailwind.css -o ./public/app.css --watch",
-		"watch:server": "node ./server.mjs",
-		"watch:serverx": "watcher 'npm run start' ./src"
+		"watch:server": "node ./server.mjs"
 	},
 	"dependencies": {
 		"express": "^4.19.2",
