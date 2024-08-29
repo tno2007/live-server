@@ -1,3 +1,6 @@
+const SERVER_PORT = 3001;
+const REFRESHCSS_OR_RELOAD = "refreshcss";
+
 import express from "express";
 const app = express();
 import { createServer } from "http";
@@ -17,9 +20,15 @@ watcher.on ( 'error', error => {
 
 watcher.on ( 'change', () => {
   console.log ( 'Something changed in the file system' );
-  // io.emit('reload', { message: 'reload' });
-  // refreshcss
-  io.emit('message', { data: 'refreshcss' });
+  switch(REFRESHCSS_OR_RELOAD) {
+	case "reload":
+		io.emit('message', { data: 'reload' });
+		break;
+	case "refreshcss":
+	default:
+		io.emit('message', { data: 'refreshcss' });	
+		break;
+  }  
 });
 
 app.use(express.static(__dirname + '/public'));
@@ -29,9 +38,9 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  console.log("a client connected");
 });
 
-server.listen(3000, () => {
-  console.log("listening on *:3000");
+server.listen(SERVER_PORT || 3000, () => {
+  console.log(`listening on *:${SERVER_PORT}`);
 });
